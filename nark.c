@@ -13,7 +13,7 @@ int last_game(char **board,int n,int m,int mines);
 //void update_board(char **board,int x,int y);
 void generate_mines(char **board,int n,int m,int mines);
 void print_board(char **board,int n,int m);
-int is_mine(int x,int y,char **board);
+int is_mine(int x,int y,char **board,int n,int m);
 int is_open(char **board,int x,int y);
 //void has_neighboor(char **board,int x,int y);
 
@@ -86,7 +86,7 @@ int main() {
 				
 				printf(" this is the opencell %d",opencell);*/
 				
-			desicion = is_mine(x,y,board);
+			desicion = is_mine(x,y,board,n,m);
 			if (desicion==0){
 				printf("You steped on a mine . You lost \n");
 				exit(0);
@@ -209,14 +209,20 @@ void print_board(char **board,int n,int m){
     printf("\n");
 }
 
-int is_mine(int x,int y,char **board){
+int is_mine(int x,int y,char **board,int n,int m){
 	x=x-1;
 	y=y-1;
 	if (board[x][y]=='@'){
 		printf("You Lost !");
 		return 0;
 	}
-	
+	else if ((board[x-1][y-1]=='@' && ((x-1>=L_ROW) && (y-1>=L_COLUMN)))|| (board[x-1][y]=='@' && (x-1>=L_ROW)) || (board[x-1][y+1]=='@'&& ((x-1>=L_ROW)&&
+(y+1<=m))) || (board[x][y-1]=='@'&& (y-1>=L_COLUMN)) || (board[x][y+1]=='@'&& (y+1<=m)) || (board[x+1][y-1]=='@' && ((x+1<=n)&&(y-1>=L_COLUMN))) || (board[x+1][y]=='@'&&(x+1<=n)) || (board[x+1][y+1] == '@'&&((x+1<=n)&&(y+1<=m)))){
+
+		board[x][y]='1';
+
+			
+	}
 	else{
 		
 		
@@ -236,8 +242,8 @@ int is_mine(int x,int y,char **board){
 		board[x][y]='1';
 	}
 	
-	(board[x-1][y-1]=='@' && ((x-1>=L_ROW) && (y-1>=L_COLUMN)))|| (board[x-1][y]=='@' && (x-1>=L_ROW)) || (board[x-1][y+1]=='@'&& ((x-1>=L_ROW)&&
-(y+1<=H_COLUMN))) || (board[x][y-1]=='@'&& (y-1>=L_COLUMN)) || (board[x][y+1]=='@'&& (y+1<=H_COLUMN)) || (board[x+1][y-1]=='@' && ((x+1<=H_ROW)&&(y-1>=L_COLUMN))) || (board[x+1][y]=='@'&&(x+1<=H_ROW)) || (board[x+1][y+1] == '@'&&((x+1<=H_ROW)&&(y+1<=H_COLUMN)))
+	(board[x-1][y-1]=='@' && ((x-1>=n) && (y-1>=m)))|| (board[x-1][y]=='@' && (x-1>=n)) || (board[x-1][y+1]=='@'&& ((x-1>=n)&&
+(y+1<=m))) || (board[x][y-1]=='@'&& (y-1>=m)) || (board[x][y+1]=='@'&& (y+1<=m)) || (board[x+1][y-1]=='@' && ((x+1<=n)&&(y-1>=m))) || (board[x+1][y]=='@'&&(x+1<=n)) || (board[x+1][y+1] == '@'&&((x+1<=n)&&(y+1<=m)))
 }
 }*/
 
