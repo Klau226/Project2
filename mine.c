@@ -14,7 +14,8 @@ int last_game(int **board,int n,int m,int mines);
 //void update_board(char **board,int x,int y);
 void generate_mines(int **board,int n,int m,int mines);
 void generate_board(int **board,int n,int m);
-void update_board(int **board,int **inv_board,int x,int y,int n,int m);
+void update_board(int **board,int **inv_board,int x,int y);
+void recursion(int **board,int **inv_board,int n,int m,int x, int y);
 void mark(int **inv_board,int x,int y);
 void cheat(int **board,int x,int y);
 void print_board(int **board,int n,int m);
@@ -108,7 +109,8 @@ int main() {
 				
 				printf(" this is the opencell %d",opencell);*/
 			
-			update_board(board,inv_board,x,y,n,m);	
+			update_board(board,inv_board,x,y);
+			//recursion(board,inv_board,n,m,x,y);	
 			desicion = is_mine(x,y,board);
 	
 			}
@@ -301,10 +303,25 @@ void generate_board(int **board,int n,int m){
 	}
 }
 
-void update_board(int **board,int **inv_board,int x,int y,int n,int m){
+void update_board(int **board,int **inv_board,int x,int y){
 	
 			inv_board[x][y]=board[x][y];
 
+}
+
+void recursion(int **board,int **inv_board,int n,int m,int x, int y){
+	int i,j;
+	update_board(board,inv_board,x,y);
+	if(board[x][y]=='.'){
+		for(i=x-1;i<=x+1;i++){
+			for(j=y-1;j<=y+1;j++){
+				if(i>=0 && i<n-2 && j>=0 && j<m-2){
+					recursion(board,inv_board,n,m,x,y);
+				}
+			}
+		}
+		
+	}
 }
 
 
