@@ -14,7 +14,7 @@ int last_game(int **board,int n,int m,int mines);
 void generate_mines(int **board,int n,int m,int mines);
 void generate_board(int **board,int n,int m);
 void update_board(int **board,int **inv_board,int x,int y);
-void recursion(int **board,int **inv_board,int n,int m,int x, int y);
+int recursion(int **board,int **inv_board,int n,int m,int x, int y);
 void mark(int **inv_board,int x,int y);
 void cheat(int **board,int x,int y);
 void print_board(int **board,int n,int m);
@@ -80,6 +80,7 @@ int main() {
 			//print_board(board,n,m);
 			printf("________________________________________________________________________________\n");
 			printf("  -----------MAKE YOUR MOVE(s)----------- \n");
+			print_board(board,n,m);
 			print_invboard(inv_board,n,m);
 			printf("-------------------------------------\n");
 			printf("if you want to play press (p)play\n");
@@ -313,60 +314,21 @@ void generate_board(int **board,int n,int m){
 }
 
 void update_board(int **board, int **inv_board, int x, int y){
-		inv_board[x][y] = board[x][y];
+	inv_board[x][y] = board[x][y];
 }
 
-void recursion(int **board, int **inv_board, int n, int m, int x, int y){
-	update_board(board, inv_board, x, y);
-	if (board[x][y] == '.') {
-		//if (x >= 0 && y >= 0 && x < n && y < m) {
-		if(0<=x<n && 0<=y<m){
-			printf("on bounds \n");
-			/*if (x - 1 >= 0 && y - 1 >= 0) {
-				recursion(board, inv_board, n, m, x - 1, y - 1);
-			}
-			if (x + 1 < n && y - 1 >= 0) {
-				recursion(board, inv_board, n, m, x + 1, y - 1);
-			}*/
-			if (x - 1 >= 0 && y + 1 < m) {
-				recursion(board, inv_board, n, m, x - 1, y + 1);
-			}
-			if (x + 1 < n && y + 1 < m) {
-				recursion(board, inv_board, n, m, x + 1, y + 1);
-			}
-			//if (y - 1 >= 0) {
-			//	recursion(board, inv_board, n, m, x, y - 1);
-			//}
-			if (y + 1 < m) {
-				recursion(board, inv_board, n, m, x, y + 1);
-			}
-			//if (x - 1 >= 0) {
-			//	recursion(board, inv_board, n, m, x - 1, y);
-			//}
-			if (x + 1 < n) {
-				recursion(board, inv_board, n, m, x + 1, y);
-			}
-		}
+int recursion(int **board, int **inv_board, int xBoardSize, int yBoardSize, int x, int y){
+	if( (x < 0) || (y < 0) || (x >= xBoardSize) || (y >= yBoardSize) || (inv_board[x][y] != '#') ){
+		return 0;
 	}
-	
+	update_board(board, inv_board, x, y);
+	if(board[x][y] == '.'){
+		recursion(board, inv_board, xBoardSize, yBoardSize, x - 1, y);
+		recursion(board, inv_board, xBoardSize, yBoardSize, x + 1, y);
+		recursion(board, inv_board, xBoardSize, yBoardSize, x, y-1);
+		recursion(board, inv_board, xBoardSize, yBoardSize, x, y+1);
+	}
 }
-
-
-
-
-				//recursion(board,inv_board,n,m,x+1,y+1);
-				//recursion(board,inv_board,n,m,x,y+1);	
-			
-				//recursion(board,inv_board,n,m,x+1,y);	
-
-			
-			//recursion(board,inv_board,n,m,x,y+1);
-					//recursion(board,inv_board,n,m,x+1,y+1);
-	
-			//recursion(board,inv_board,n,m,x+1,y+1);	
-			
-		//update_board(board,inv_board,x,y);
-		
 void mark(int **inv_board,int x,int y){
 	inv_board[x][y]='@';
 }
