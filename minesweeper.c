@@ -50,7 +50,7 @@ int main() {
 	printf ("Choose the difficulty\n");
 	printf ("(e)EASY , (n)Normal , (h)HARD , (i)impossible\n");
 	printf ("\n");
-	printf("If you want a custom game press (c)custom\n");
+	printf("If you want a custom game press (c)custom\n");			// custom game which the user determines the mines
 	scanf(" %c",&level_difficulty);
 	while((level_difficulty != 'e') && (level_difficulty != 'n') && (level_difficulty != 'h') && (level_difficulty != 'i')  && (level_difficulty != 'c')){
 		printf("Please, Choose your prefered difficulty (e)easy ,(n)normal ,(h)hard ,(i)impossible \n");
@@ -79,7 +79,7 @@ int main() {
 			scanf(" %d",&custom_mines);
 			while(custom_mines>=(n*m)){
 				printf("please mines should not exceed %d: ",(n*m));  //generating mines for the custom game
-				scanf(" %d",&custom_mines);
+				scanf(" %d",&custom_mines);			      // user decides the mines 
 			}
 			generate_mines(board,n,m,custom_mines);
 		}
@@ -97,8 +97,8 @@ int main() {
 			printf("~If you want to play press (p)play\n");
 			printf("~If you want to mark a cell press (m)mark\n");
 			printf("~If you want to cheat press (c)cheat\n");
-			printf("~If you want to see what the board has inside it,press (a)appear\n");
-			printf("~If you want to Exit press (e)exit\n");
+			printf("~If you want to see what the board has inside it,press (a)appear\n");			// if the user types 'a' then the final 
+			printf("~If you want to Exit press (e)exit\n");							// board will appear
 			printf("-------------------------------------\n");
 			scanf(" %c",&mode);
 			while ((mode!='p') && (mode!='m') && (mode!='c') && (mode!='a') && (mode!='e')){
@@ -175,8 +175,9 @@ int main() {
 		
 		desicion=1; 							// then making desicion = 1 so we can get inside with our new board
 		
-		if(n > H_ROW && m>H_COLUMN){  					// determins the win condition
-			printf("You won the game congrats!!! /n");
+		if(n > H_ROW && m>H_COLUMN){  
+			printf("------------------------------\n");							// determins the win condition
+			printf("You won the game congrats!!! \n");
 			newgame = 0; 						// if 0 then end the programm
 		}else{
 			newgame=1; 						// if 1 continue
@@ -188,7 +189,7 @@ int main() {
 	}
 	free(board);
 	for(i=0;i<n;i++){
-		free(inv_board[i]);
+		free(inv_board[i]);						// freeing both boards
 	}
 	free(inv_board);
 	
