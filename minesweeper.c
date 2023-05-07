@@ -1,3 +1,13 @@
+/*
+	Klaountio Manofi
+	AM: 2022201900119
+	dit19119@go.uop.gr
+	
+	Giwrgos Karudakhs
+	AM: 2022201900075
+	dit19075@go.uop.gr
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -247,7 +257,7 @@ int last_game(int **board,int n,int m,int mines){		// determines if the round is
 			}
 		}						
 	}
-	sum = (m*n)-mines; 					//OLA TA KELIA MAS XWRIS TA MINES
+	sum = (m*n)-mines; 					//all cells without the mines
 	if(counter >= sum){
 		printf("End of stage! WELL DONE\n");
 		return 0;
@@ -257,13 +267,13 @@ int last_game(int **board,int n,int m,int mines){		// determines if the round is
 	}
 }
 
-void generate_mines(int **board,int n,int m,int mines){
+void generate_mines(int **board,int n,int m,int mines){		//generating mines
 	
 	int row,col;	
 	for (int i=0;i<mines;i++){
 	 	row = rand() % n;
 		col = rand() % m;
-		if (board[row][col]== '@'){
+		if (board[row][col]== '@'){			
 			i--;
 		}
 		else{
@@ -272,7 +282,7 @@ void generate_mines(int **board,int n,int m,int mines){
 	}
 }
 
-void generate_board(int **board,int n,int m){  					// making our mines with neighboors
+void generate_board(int **board,int n,int m){  					// generating the board with neighboors
 	int i,j;
 	char counter ='0';
 	for(i=0;i<n;i++){
@@ -339,7 +349,7 @@ void update_board(int **board, int **inv_board, int x, int y){  		// update the 
 }
 
 int recursion(int **board, int **inv_board, int xBoardSize, int yBoardSize, int x, int y){
-	if( (x < 0) || (y < 0) || (x >= xBoardSize) || (y >= yBoardSize) || (inv_board[x][y] != '#') ){
+	if( (x < 0) || (y < 0) || (x >= xBoardSize) || (y >= yBoardSize) || (inv_board[x][y] != '#') ){		//recursion
 		return 0;
 	}
 	update_board(board, inv_board, x, y);
@@ -358,7 +368,7 @@ void mark(int **inv_board,int x,int y){								// mark
 	inv_board[x][y]='@';
 }
 
-void cheat(int **board,int x,int y){
+void cheat(int **board,int x,int y){								// cheat
 	if(board[x][y]=='.'){ 
 		printf("\n");
 		printf("--- No mines nearby ---\n");
