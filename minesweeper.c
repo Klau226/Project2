@@ -215,15 +215,16 @@ int obstacle_count(int x,int y,int percentage){ 					// percentage of mines
 }
 
 int **make_board(int n, int m){
+	int i,j;
 	int **board = NULL;
 											// making our main board
 	board = (int**)malloc(n*sizeof(int*));
-	for (int i=0; i<n; i++){
+	for (i=0; i<n; i++){
 		board[i]=(int*)malloc(m*sizeof(int));
 	}
 	
-	for (int i=0;i<n;i++){
-		for(int j=0;j<m;j++){
+	for (i=0;i<n;i++){
+		for(j=0;j<m;j++){
 			board[i][j]='.';
 		}
 	}	
@@ -269,8 +270,8 @@ int last_game(int **board,int n,int m,int mines){		// determines if the round is
 
 void generate_mines(int **board,int n,int m,int mines){		//generating mines
 	
-	int row,col;	
-	for (int i=0;i<mines;i++){
+	int row,col,i;	
+	for (i=0;i<mines;i++){
 	 	row = rand() % n;
 		col = rand() % m;
 		if (board[row][col]== '@'){			
