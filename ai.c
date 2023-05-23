@@ -14,13 +14,14 @@ typedef struct gList {
 gtpList* head = NULL;
 
 #define LEARN_THIS = "learn this >"
-#define MAX_LENGTH 1000
+#define MAX_LENGTH 5
 
-void learn_kbr();
+char* learn_kbr();
 void insert_kbr(char* concept,char* sentence,int used);
 void list_display();
 
 int main(){
+	char *concept=NULL,*sentence=NULL;
 	int desicion;
 	printf("press 1 if you want to learn something\n");
 	printf("press 0 if you want to print the list\n");
@@ -28,46 +29,83 @@ int main(){
 	getchar();
 	while(desicion!=0){
 		if (desicion==1){
-			learn_kbr();	
+			concept = learn_kbr();
+			sentence = learn_kbr();
+			insert_kbr(concept,sentence,0);
+			//learnSentence_kbr();	
 		}
 		printf("press 1 if you want to learn something\n");
 		printf("press 0 if you want to print the list\n");
 		scanf("%d",&desicion);
 		getchar();
 	}
-	
+	//insert_kbr(concept,sentence,0);
 	list_display();
 }
 
+char* learn_kbr(){
+	char *user_string = NULL,*tmp = NULL;
+    	int size = 0, index = 0;
+    	int ch = EOF;
 
+	printf("Type the concept:\n");
+    while (ch) {
+        ch = getc(stdin);
 
-void learn_kbr(){
-	char* concept,*sentence;
-	concept = (char*)malloc((MAX_LENGTH+1)*sizeof(char));
-	sentence = (char*)malloc((MAX_LENGTH+1)*sizeof(char));
-	if (concept == NULL || sentence == NULL) {
-    		printf("Memory allocation failed.\n");
-    		exit(1); // or return an error code
-	}
-	printf("Enter the concept: \n");
-	//printf(" \n");
-	fgets(concept, MAX_LENGTH, stdin);
-	int length_con = strlen(concept);
-	if (concept[length_con - 1] == '\n') {
-    		concept[length_con - 1] = '\0';
-	}
-	printf("Enter the sentence: \n");
-	fgets(sentence, MAX_LENGTH, stdin);
-	int length_sen = strlen(sentence);
-	if (sentence[length_sen - 1] == '\n') {
-    		sentence[length_sen - 1] = '\0';
-	}
-	//printf("This is the concept : %s\n",concept);
-	//printf("This is the sentence : %s\n",sentence);
-	insert_kbr(concept,sentence,0);
-	//free(sentence);
-	//free(concept);
+        /* Check if we need to stop. */
+        if (ch == EOF || ch == '\n')
+            ch = 0;
+
+        /* Check if we need to expand. */
+        if (size <= index) {
+            size += MAX_LENGTH;
+            tmp = realloc(user_string, size);
+            if (!tmp) {
+                free(user_string);
+                user_string = NULL;
+                break;
+            }
+            user_string = tmp;
+        }
+
+        /* Actually store the thing. */
+        user_string[index++] = ch;
+    }
+
+    return user_string;
 }
+
+/*void learnSentence_kbr(){
+	char *sentence=NULL, *tmp = NULL;
+    	int size = 0, index = 0;
+    	int ch = EOF;
+	printf("Type the sentence:\n");
+    while (ch) {
+        ch = getc(stdin);
+
+        // Check if we need to stop. 
+        if (ch == EOF || ch == '\n')
+            ch = 0;
+
+        // Check if we need to expand. 
+        if (size <= index) {
+            size += MAX_LENGTH;
+            tmp = realloc(sentence, size);
+            if (!tmp) {
+                free(sentence);
+                sentence = NULL;
+                break;
+            }
+            sentence = tmp;
+        }
+
+        // Actually store the thing. 
+        sentence[index++] = ch;
+    }
+
+    printf("the string is :%s",sentence);
+}*/
+
 
 void insert_kbr(char* concept,char* sentence,int used){
 	gtpList *new = NULL;
@@ -106,5 +144,3 @@ void list_display(){
 	free(ptr);
 
 }
-	
-
