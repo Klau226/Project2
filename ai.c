@@ -13,34 +13,64 @@ typedef struct gList {
 
 gtpList* head = NULL;
 
-#define LEARN_THIS = "learn this >"
+#define LEARN_THIS  "learn this > "
+#define C ">"
+#define S ":"
+#define GPT "ChatGpt$ "
+#define USER "User$ "
 #define MAX_LENGTH 5
 
+void learn(char* user_string);
 char* learn_kbr();
 void insert_kbr(char* concept,char* sentence,int used);
+void sortlist();
 void list_display();
 
 int main(){
-	char *concept=NULL,*sentence=NULL;
+	char *user_string=NULL,*sentence=NULL,*test;
+	char *c,*s,*sstring=NULL,*sstring1=NULL;
 	int desicion;
+	int i=0;
+	char* variables[3];
 	printf("press 1 if you want to learn something\n");
 	printf("press 0 if you want to print the list\n");
 	scanf("%d",&desicion);
 	getchar();
 	while(desicion!=0){
-		if (desicion==1){
-			concept = learn_kbr();
-			sentence = learn_kbr();
-			insert_kbr(concept,sentence,0);
-			//learnSentence_kbr();	
-		}
+			user_string = learn_kbr();
+			test = strstr(user_string,LEARN_THIS);
+			if(test){
+				learn(user_string);
+			}
+		
 		printf("press 1 if you want to learn something\n");
 		printf("press 0 if you want to print the list\n");
 		scanf("%d",&desicion);
 		getchar();
 	}
-	//insert_kbr(concept,sentence,0);
+	/*printf ("unsorted list : \n");
 	list_display();
+	sortlist();
+	printf ("sorted list : \n");*/
+	list_display();
+}
+
+void learn(char* user_string){
+	char* token = NULL,*variables[2];
+	int i=0;
+	
+	token = strtok(user_string,">:");
+			
+	while( token != NULL ) {
+		variables[i]=token;
+		i++;
+      		token = strtok(NULL,">:");
+   	}
+   	//for(i=0;i<3;i++){
+   	//	printf("variables %d: %s\n",i,variables[i]);
+   	//}
+   	insert_kbr(variables[1],variables[2],0);
+   	i=0;
 }
 
 char* learn_kbr(){
@@ -48,7 +78,7 @@ char* learn_kbr(){
     	int size = 0, index = 0;
     	int ch = EOF;
 
-	printf("Type the concept:\n");
+	printf("%s ",USER);
     while (ch) {
         ch = getc(stdin);
 
@@ -75,38 +105,36 @@ char* learn_kbr(){
     return user_string;
 }
 
-/*void learnSentence_kbr(){
-	char *sentence=NULL, *tmp = NULL;
-    	int size = 0, index = 0;
-    	int ch = EOF;
-	printf("Type the sentence:\n");
-    while (ch) {
-        ch = getc(stdin);
 
-        // Check if we need to stop. 
-        if (ch == EOF || ch == '\n')
-            ch = 0;
+void sortlist(){
+	gtpList *current = NULL, *index = NULL;  
+    char* temp=NULL;  
+    //Check whether list is empty  
+    if(head == NULL) {  
+    	printf("Memory allocation failed \n");
+        return;  
+    }  
+    else {  
+        //Current will point to head  
+        for(current = head; current->next != NULL; current = current->next) {  
+            //Index will point to node next to current  
+            for(index = current->next; index != NULL; index = index->next) {  
+                //If current's data is greater than index's data, swap the data of current and index  
+        
+                if(strcmp(current->concept,index->concept)>0){
+                    temp = current->concept;  
+                    current->concept = index->concept;  
+                    index->concept = temp; 
+                     
+                    temp = current->sentence;
+                    current->sentence = index->sentence;
+                    index->sentence = temp;
+                }  
+            }  
+        }  
+    }  
 
-        // Check if we need to expand. 
-        if (size <= index) {
-            size += MAX_LENGTH;
-            tmp = realloc(sentence, size);
-            if (!tmp) {
-                free(sentence);
-                sentence = NULL;
-                break;
-            }
-            sentence = tmp;
-        }
-
-        // Actually store the thing. 
-        sentence[index++] = ch;
-    }
-
-    printf("the string is :%s",sentence);
-}*/
-
-
+}
 void insert_kbr(char* concept,char* sentence,int used){
 	gtpList *new = NULL;
 	new = (gtpList*)malloc(sizeof(gtpList));
@@ -118,6 +146,7 @@ void insert_kbr(char* concept,char* sentence,int used){
 	if(head == NULL){
 		new->concept = concept;
 		new->sentence = sentence;
+		strcpy(new->learnedFrom,"kbr");
 		new->prev = NULL;
 		new->next = NULL;
 		head = new;
@@ -125,6 +154,7 @@ void insert_kbr(char* concept,char* sentence,int used){
 	else{
 		new->concept = concept;
 		new->sentence = sentence;
+		strcpy(new->learnedFrom,"kbr");
 		new->prev = NULL;
 		new->next = head;
 		head->prev = new;
