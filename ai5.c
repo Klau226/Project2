@@ -22,6 +22,7 @@ gtpList* head = NULL;
 #define GPT "ChatGpt$ "
 #define USER "User$ "
 #define MAX_LENGTH 5
+/* Edited the file */
 
 
 void reply(char* concept,int search);
