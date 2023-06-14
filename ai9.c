@@ -45,11 +45,8 @@ gtpList* answerTheQuestion(char* keyword,gtpList* prevSearch);
 
 int main(){
 	char *user_string=NULL,*sentence=NULL,*kbr,*file,*forget_string,*point,*answer,*keyword,*printConcept,*printTimesUsed,*help,*fortytwo,*print,*print_struct;
-	char *c,*s,*sstring=NULL,*sstring1=NULL;
-	int desicion;
-	int i=0;
 	char* questions;
-	gtpList *current=NULL,*ptr=NULL;
+	gtpList *ptr=NULL;
 	
 	
 	FILE *fp;
@@ -66,7 +63,6 @@ int main(){
 	printf("Type Print The Struct to print all the struct\n");
 	printf("\n");
 	printf("%s Hi, i dont have time to chat go away\n",GPT);
-	//getchar();
 	do{
 		printf("%s ",USER);
 		user_string = learn_kbr();
@@ -81,15 +77,12 @@ int main(){
 		fortytwo = strstr(user_string,"What is the meaning of Life, The Universe, and Everything?");
 		print = strstr(user_string,"Print The List");
 		print_struct = strstr(user_string,"Print The Struct");
-		
-		//fwrite(user_string,1,strlen(user_string),fp);
+
 		fprintf(fp, "\n");
-		
-						    			
+					    			
 		if(kbr){
 			learn(user_string);
 			sortlist();
-			//list_dispay();
 			
 		}
 		else if(file){
@@ -106,11 +99,7 @@ int main(){
 			listdisplay_timesUsed();
 		}
 		else if(point){
-			
 				reply(user_string,4);
-				//printf("If you have a question use '*your question*' \n");
-			
-			//reply(user_string,4);
 		}
 		else if(answer){
 			keyword = strstr(user_string,"*");
@@ -121,7 +110,6 @@ int main(){
 					reply(questions,6);
 					printf("%s%s \n",GPT,ptr->sentence);
 					fprintf(fp,"%s%s\n",GPT,ptr->sentence);
-					//printf("The current is : %s",current->concept);
 				}
 				else if(ptr == NULL){
 					reply(questions,5);
@@ -164,7 +152,6 @@ int main(){
 			printf("%s Type the keywords fool,first time chatting with me? \n",GPT);
 			fprintf(fp,"%s Type the keywords fool,first time chatting with me? \n",GPT);
 		}
-		//list_display();
 	}while(strcmp(user_string,"So Long, and Thanks for All the Fish")!=0);
 	printf("%s Good bye dont come again \n",GPT);
 	fprintf(fp,"%s Good bye dont come again \n",GPT);
@@ -185,7 +172,6 @@ void reply(char *concept,int search){
 	char *cantFind_second[5]={",couldnt find the word.",",there is no such word.",",neither concept nor centence like this.",",search again.",",no word like this."};
 	char *found_first[5]={"Hurray! ","Searching..... ","Lets get to work....","Well ","It seems like "};
 	char *found_second[5]={",found it!","found it, now let me be","found it, stop bothering me now","found it, and it wasn't easy","ffffound stop now",};
-	//gtpList *new=NULL;
 	
 	FILE *fp;
 	fp = fopen("dialogue.txt", "a");
@@ -272,19 +258,16 @@ void learn(char* user_string){
 }
 
 void forget(char* user_string){
-	gtpList *ptr=NULL, *current=NULL;
+	gtpList *current=NULL;
 	char* token = NULL;
 	char* variables[3];
 	char* sstring;
 	int i=0;
 	
-	//user_string = removeWhitespace(user_string);
 	
 	sstring = (char*)malloc(sizeof(user_string)*sizeof(char));
 	sstring = user_string;
-	//printf("the user string is %s \n",sstring);
 	sstring = strcat(sstring,": ");
-	//printf("the final string is %s \n",sstring);
 	token = strtok(sstring,">:");
 	while( token != NULL ) {
       		token = strtok(NULL,">:");
@@ -298,7 +281,6 @@ void forget(char* user_string){
    	variables[0] = removeWhitespace(variables[0]);	     
 	if(head == NULL) {  
     		printf("%s For real you need a doctor,first time i hear about %s \n",GPT,variables[0]);
-    		//fprintf(fp,"%s For real you need a doctor,first time i hear about\n",GPT );
         	return;  
     	}   
 	current = head;    
@@ -312,10 +294,7 @@ void forget(char* user_string){
 		 current = current->next;	
 	}    	
 
-	printf("%s For real you need a doctor,first time i hear about %s \n",GPT,variables[0]);
-	//fprintf(fp,"%s For real you need a doctor,first time i hear about\n",GPT );
-	//reply(variables[0],3);
-	
+	printf("%s For real you need a doctor,first time i hear about %s \n",GPT,variables[0]);	
 }
 
 void deleteNode(gtpList *del){ 
@@ -357,7 +336,7 @@ void deleteNode(gtpList *del){
 
 char* learn_kbr(){
 	char *user_string = NULL,*tmp = NULL;
-    	int size = 0, index = 0;
+    	int size = 0, i = 0;
     	int ch = EOF;
 
 	//printf("%s ",USER);
@@ -369,7 +348,7 @@ char* learn_kbr(){
             ch = 0;
 
         /* Check if we need to expand. */
-        if (size <= index) {
+        if (size <= i) {
             size += MAX_LENGTH;
             tmp = realloc(user_string, size);
             if (!tmp) {
@@ -381,7 +360,7 @@ char* learn_kbr(){
         }
 
         /* Actually store the thing. */
-        user_string[index++] = ch;
+        user_string[i++] = ch;
     }
 	
     return user_string;
@@ -391,7 +370,6 @@ char* learn_kbr(){
 void sortlist(){
 	gtpList *current = NULL, *index = NULL;  
     char* temp=NULL;  
-    //Check whether list is empty  
     if(head == NULL) {  
     	printf("Memory allocation failed \n");
         return;  
@@ -415,12 +393,10 @@ void sortlist(){
             }  
         }  
     }  
-
 }
 void insert_kbr(char* concept,char* sentence,int used,char* type){
 	int searched;
 	gtpList *new = NULL;
-	//printf("%s%s\n",concept,sentence);	
 	new = (gtpList*)malloc(sizeof(gtpList));
 	searched = search(concept);
 	if(searched != 1){
@@ -447,71 +423,11 @@ void insert_kbr(char* concept,char* sentence,int used,char* type){
 			head->prev = new;
 			head = new;
 		}
-		printf("Node inserted \n");
-		
 	}
 	
 	reply(concept,searched);
 }
 
-void file_kbr(){
-	FILE *fptr;
-	long str_length;
-	char *str;
-
-	// Open the file.
-	fptr = fopen("wikipedia_100.txt" , "rb");
-	
-	// Ftikse to read this > kai bgale to keno
-
-	// Get the size of the file.
-	fseek(fptr, 0, SEEK_END);
-	str_length = ftell(fptr);
-	rewind(fptr);
-
-	// Allocate memory to contain the whole file including the null byte.
-	str = calloc(str_length + 1, sizeof(char)); // +1 for null byte.
-
-	// Read the contents of the file into the buffer.
-	//fread(str, 1, str_length, fptr);
-	while(fgets(str,str_length, fptr))
-	{
-    		str[strcspn(str, "\n")] = '\0';
-		if (strcmp(str, "\n") == 0) break;
-	}
-
-	// Null terminate the string.
-	str[str_length] = '\0';
-
-	// Close the file.
-	fclose(fptr);
-
-	// Print the contents of the file.
-	printf("%s", str);
-	//learn_file(str);
-
-
-	/*FILE *file1=NULL;
-	char *buffer;
-	buffer = (char*)malloc(sizeof(char));
-	
-	file1 = fopen("/home/klaudio/Downloads/wikipedia_100.txt","r");
-	if (file1 == NULL){
-		printf("no such file");
-		return;
-	}
-	fscanf(file1,"%s",buffer = learn_file());
-	printf("1 : %s\n", buffer );
-	
-	fgets(buffer, 255, (FILE*)file1);
-   	printf("2: %s\n", buffer );
-   	
-   	fgets(buffer, 255, (FILE*)file1);
-   	printf("3: %s\n", buffer );
-   	fclose(file1);*/
-
-}
-//file couldn't be opened
 void learn_file(char* file_string){
 	FILE *fptr;
 	long str_length;
@@ -551,17 +467,9 @@ void learn_file(char* file_string){
 	fptr = fopen(variables2[0],"r");
 	if (fptr == NULL){
 		printf("Error opening file \n");
-    // Additional error handling if needed
+
     		return ;
-		//printf("File couldn't be opened");
-		//return;
 	}
-	//fseek(fptr, 0, SEEK_END); // seek to end of file
-	//file_size = ftell(fptr); // get current file pointer
-	//fseek(fptr, 0, SEEK_SET);
-	
-	//printf("The file size is%d \n",file_size);
-	
 	line = (char*)malloc(1000*sizeof(char));
     	while (fgets(line, 1000, fptr)) {
     
@@ -578,23 +486,7 @@ void learn_file(char* file_string){
             			i++;
             		}
         	}
-        //printf("variable 1:%s variable 2:%s \n",variables[0],variables[1]);
-		//variables[0] = removeWhitespace(variables[0]);
-		
-		//sstring2 = variables[1];
-		/*for (i = 0, j = 0; sstring2[i] != '\0'; i++) {
-        		if (sstring2[i] == ' ' && !foundWhitespace) {
-            			foundWhitespace = 1; // Set the flag to indicate that the first white space has been found
-        		}
-        		else {
-            			sstring2[j++] = sstring2[i];
-        		}
-    		}
-    		foundWhitespace=0;
-    		sstring2[j] = '\0';*/
-    		
-    		
-    		//variables[1] = sstring2;
+      
     		variables[0] = removeWhitespace(variables[0]);
     		variables[1] = removeWhitespace(variables[1]);
         	if (variables[0] != NULL && variables[1] != NULL) {
@@ -610,12 +502,11 @@ void learn_file(char* file_string){
 	free(variables[0]); // Free memory for tokens
         free(variables[1]);
 }
+
 char* question(char *user_string){
 	char* token = NULL;
-	int i=0,j;
+	int i=0;
 	char* variables[3];
-	
-	//user_string = removeWhitespace(user_string);
 	
 	token = strtok(user_string,"**");
 	while( token != NULL ) {
@@ -625,8 +516,6 @@ char* question(char *user_string){
 			i++;
 		}
    	}
-   	//printf("first token: %s\n",variables[0]);
-   	//answerTheQuestion(variables[0]);
    	variables[0] = removeWhitespace(variables[0]);		
    	i=0;
    	return variables[0];
@@ -637,42 +526,37 @@ gtpList* answerTheQuestion(char* keyword,gtpList* prevSearch){
 
 
 
-    if (head == NULL) {
-        // printf("Linked List not initialized");
-        return NULL;
-    }
-    if(prevSearch == NULL){
-    current = head;
-    while (current != NULL) {
-        if (strstr(current->concept, keyword) != NULL) {
-            current->timesUsed++;
-            return current;
-        }
+    	if (head == NULL) {
+        	// printf("Linked List not initialized");
+        	return NULL;
+    	}
+    	if(prevSearch == NULL){
+    		current = head;
+    		while (current != NULL) {
+        		if (strstr(current->concept, keyword) != NULL) {
+           			current->timesUsed++;
+            			return current;
+        		}
 
-        if (current->next != NULL) {
-            current = current->next;
-        } else {
-            break;
-        }
-    }
+        		if (current->next != NULL) {
+            			current = current->next;
+        		} else {
+            			break;
+        		}
+        		if (strstr(current->sentence, keyword) != NULL) {
+            			current->timesUsed++;
+            			return current;
+        		}
 
-    //current = head;
-    while (current != NULL) {
-        if (strstr(current->sentence, keyword) != NULL) {
-            current->timesUsed++;
-            return current;
-        }
+        		if (current->next != NULL) {
+            			current = current->next;
+        		} else {
+            			break;
+        		}
+        	}
+    	}	
 
-        if (current->next != NULL) {
-            current = current->next;
-        } else {
-            break;
-        }
-    }
-	}
-    
-
-    else if(prevSearch != NULL){ 
+    /*else if(prevSearch != NULL){ 
         current = prevSearch;
         while (current != NULL) {
         	if (strstr(current->concept, keyword) != NULL) {
@@ -683,34 +567,13 @@ gtpList* answerTheQuestion(char* keyword,gtpList* prevSearch){
                 	if (current->next != NULL) {
                     		printf("Going Right! \n");
                     		current = current->next;
-                    		if(current == NULL){
-                			printf("I was searching and something happened. \n");
-                			return NULL;
-                		}
-                	} else {
-                    		break;
                 	}
             	} else if(strcmp(current->concept, keyword) > 0){
                 	if (current->prev != head) {
                     		printf("Going Left! \n");
-                    		current = current->prev;
-                    		if(current == NULL){
-                			printf("I was searching and something happened. \n");
-                			return NULL;
-                		}
-                	} else {
-                    		break;
-                	}
-            	
-
-            /*if (strstr(current->concept, keyword) != NULL) {
-                current->timesUsed++;
-                return current;
-            }*/
-        }
-        current = prevSearch;
-        while (current != NULL) {
-        	//if (strstr(current->sentence, keyword) != NULL) {
+                    		current = current->prev;					//DOESN'T WORK!!
+        		}
+        	}
         	if(strstr(current->sentence, keyword) != NULL){
                 	current->timesUsed++;
                 	return current;
@@ -719,235 +582,17 @@ gtpList* answerTheQuestion(char* keyword,gtpList* prevSearch){
                 	if (current->next != NULL) {
                     		printf("Going Right! \n");
                     		current = current->next;
-                    		if(current == NULL){
-                			printf("I was searching and something happened. \n");
-                			return NULL;
-                		}
-                	} else {
-                    		break;
                 	}
             	} else if(strcmp(current->sentence, keyword) > 0){
                 	if (current->prev != head) {
                     		printf("Going Left! \n");
                     		current = current->prev;
-                    		if(current == NULL){
-                			printf("I was searching and something happened. \n");
-                			return NULL;
-                		}
-                	} else {
-                    		break;
                 	}
             	}
-
-            /*if (strstr(current->concept, keyword) != NULL) {
-                current->timesUsed++;
-                return current;
-            }*/
-        }
     
 	}
-	}
+    }*/
     return NULL;
-
-	
-	/*if (head == NULL) {
-        // printf("Linked List not initialized");
-        return NULL;
-    }
-
-    current = (prevSearch == NULL) ? head : prevSearch;
-
-    // Search in concept field
-    while (current != NULL) {
-        if (strstr(current->concept, keyword) != NULL) {
-            current->timesUsed++;
-            return current;
-        } else if (strcasecmp(current->concept, keyword) > 0) {
-            if (current->prev != NULL) {
-                printf("Going Left! \n");
-                current = current->prev;
-            } else {
-                break;
-            }
-        } else {
-            if (current->next != NULL) {
-                printf("Going Right! \n");
-                current = current->next;
-            } else {
-                break;
-            }
-        }
-    }
-
-    current = (prevSearch == NULL) ? head : prevSearch;
-
-    // Search in sentence field
-    while (current != NULL) {
-        if (strstr(current->sentence, keyword) != NULL) {
-            current->timesUsed++;
-            return current;
-        } else if (strcasecmp(current->concept, keyword) > 0) {
-            if (current->prev != NULL) {
-                printf("Going Left! \n");
-                current = current->prev;
-            } else {
-                break;
-            }
-        } else {
-            if (current->next != NULL) {
-                printf("Going Right! \n");
-                current = current->next;
-            } else {
-                break;
-            }
-        }
-    }
-
-    return NULL;
-	
-	/*if (head == NULL) {
-        // printf("Linked List not initialized");
-        return NULL;
-    }
-
-    if (prevSearch == NULL) {
-        current = head;
-    } else {
-        current = prevSearch;
-    }
-
-
-    	while (current != NULL) {
-        	if (strstr(current->concept, keyword) != NULL) {
-            		current->timesUsed++;
-            	return current;
-        	}
-
-        	if (current->next != NULL) {
-            		current = current->next;
-        	} else {
-            		break;
-        	}
-    }
-
-    if (prevSearch == NULL) {
-        current = head;
-    } else {
-        current = prevSearch;
-    }
-    
-    while (current != NULL) {
-        if (strstr(current->sentence, keyword) != NULL) {
-            current->timesUsed++;
-            return current;
-        }
-
-        if (current->next != NULL) {
-            current = current->next;
-        } else {
-            break;
-        }
-    }
-
-    return NULL;/*
-
-	
-	/*if (head==NULL){
-		//printf("Linked List not initialized");
-      		return NULL;
-	}
-	current = head;
-	if (prevSearch == NULL){
-		while(current!=NULL){
-			if(strstr(current->concept,keyword)){
-				current->timesUsed++;
-				return current;
-			}
-			if(current->next != NULL)
-         			current = current->next;
-      			else
-      				break;
-		}
-		
-		while(current!=NULL){
-			if(strstr(current->sentence,keyword)){
-			
-				current->timesUsed++;
-				return current;
-				
-			}
-			if(current->next != NULL)
-         			current = current->next;
-      			else
-      				break;
-		}
-	}
-	else{
-		current = prevSearch;
-		while(current!=NULL){
-			if(strstr(current->concept,keyword)){
-				//printf("%s %s\n",GPT,current->sentence);
-				current->timesUsed++;
-				//printf("%s %d\n",GPT,current->timesUsed);
-			
-				return current;
-			}
-			if(strcasecmp(current->concept,keyword)<0){
-				if(current->next != NULL){
-					printf("Going Right! \n");
-         				current = current->next;
-         			}
-      				else
-      					break;
-			}
-			else if(strcasecmp(current->concept,keyword)>0){
-				if(current->prev != NULL){
-					printf("Going Left! \n");
-					current = current->prev;
-				}
-				else
-					break;
-			}
-			
-		}
-		current = NULL;
-		current = prevSearch;
-		while(current!=NULL){
-			if(strstr(current->sentence,keyword)){
-				//if(strcasecmp(current->sentence,keyword)==0){
-				//printf("%s %s\n",GPT,current->sentence);
-				current->timesUsed++;
-				//printf("%s %d\n",GPT,current->timesUsed);
-			
-				return current;
-				//}
-			}
-			
-			elseif(strcasecmp(current->sentence,keyword)<0){
-					if(current->next != NULL){
-						printf("Going Right! \n");
-         					current = current->next;
-         				}
-      					else{
-      						break;
-      					}
-				}
-				else if(strcasecmp(current->sentence,keyword)>0){
-					if(current->prev != NULL){
-						printf("Going Left! \n");
-						current = current->prev;
-					}
-					else{
-						break;
-					}
-				}
-			
-		}
-	}
-	
-	
-	return NULL;*/
-   	
 }
 
 
@@ -963,8 +608,6 @@ int search(char* data) {
    while(current!=NULL) {
       pos++;
       if(strcmp(current->concept,data)==0) {
-         printf("%s %s found at position %d\n",GPT, data, pos);
-         //fprintf(fp,"%s %s found at position %d\n",GPT, data, pos);
          return 1;
       }
 
@@ -1064,4 +707,3 @@ void display_struct(){
 	}
 	free(ptr);
 }
-
