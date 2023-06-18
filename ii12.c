@@ -427,22 +427,12 @@ void insert_kbr(char* concept,char* sentence,int used,char* type){
 
 void learn_file(char* file_string){
 	FILE *fptr;
-	char *str,*final_str;
 	char* token = NULL;
-	char* token1 = NULL;
-	
-	char* variables1[2];
-	char* sstring = NULL;
-	char* sstring2 = NULL;
 	char sstring1[256]={"/home/klaudio/Downloads/"};
 	char* variables[1];
 	char* variables2[2];
-	//char line[1000];
 	char* line;
-	int file_size;
-	//int i=0,j=0;
-	int i,j;
-	int foundWhitespace = 0;
+	int i;
 
 	file_string = removeWhitespace(file_string);
 
@@ -456,7 +446,7 @@ void learn_file(char* file_string){
 			i++;
 		}
    	}
-	
+	token = NULL;
    	i=0;
 	
 	variables2[0] = removeWhitespace(variables2[0]);
@@ -484,15 +474,12 @@ void learn_file(char* file_string){
         	if (variables[0] != NULL && variables[1] != NULL) {
             		insert_kbr(variables[0], variables[1], 0, "file");
         	}
-		sstring2 = NULL;
         	variables[0] = NULL;
         	variables[1] = NULL;
         	i = 0;
         }
-        free(sstring2);
+        token = NULL;
         free(line);
-	free(variables[0]); // Free memory for tokens
-        free(variables[1]);
 }
 
 char* question(char *user_string){
