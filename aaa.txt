@@ -1,3 +1,12 @@
+/* Klaountio Manofi
+   AM: 2022201900119
+   dit19119@go.uop.gr
+
+   Giorgos Karudakhs
+   AM: 2022201900075
+   dit19075@go.uop.gr
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
