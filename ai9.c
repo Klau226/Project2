@@ -18,8 +18,6 @@ gtpList* head = NULL;
 #define LEARN_THIS  "learn this >"
 #define READ_THIS "read this >"
 #define FORGET_THIS "forget this >"
-#define C ">"
-#define S ":"
 #define GPT "ChatGpt$ "
 #define USER "User$ "
 #define MAX_LENGTH 5
@@ -36,7 +34,6 @@ void list_display();
 void listdisplay_concept();
 void listdisplay_timesUsed();
 void display_struct();
-void file_kbr();
 void learn_file(char* file_string);
 void forget(char* user_string);
 void deleteNode(gtpList *del);
@@ -81,7 +78,7 @@ int main(){
 		fprintf(fp, "\n");
 					    			
 		if(kbr){
-			learn(user_string);
+			learn(user_string);		
 			sortlist();
 			
 		}
@@ -471,11 +468,7 @@ void learn_file(char* file_string){
     		return ;
 	}
 	line = (char*)malloc(1000*sizeof(char));
-    	while (fgets(line, 1000, fptr)) {
-    
-    	
-    		//line = removeWhitespace(line);
-    		
+    	while (fgets(line, 1000, fptr)) {  		
         	token = strtok(line, ":.");
         	variables[i]=strdup(token);
         	i++;
@@ -527,7 +520,7 @@ gtpList* answerTheQuestion(char* keyword,gtpList* prevSearch){
 
 
     	if (head == NULL) {
-        	// printf("Linked List not initialized");
+    		printf("Linked List not initialized");
         	return NULL;
     	}
     	if(prevSearch == NULL){
