@@ -54,7 +54,7 @@ int main(){
     	}
 	
 	srand(time(NULL));	
-	printf("Type exit if you want to end the programm and to print the list\n");
+	printf("Type So Long, and Thanks for All the Fish if you want to end the programm and to print the list\n");
 	printf("Type Help Me Please to help you with the grammar\n");
 	printf("Type Print The List to print the list\n");
 	printf("Type Print The Struct to print all the struct\n");
@@ -516,7 +516,10 @@ gtpList* answerTheQuestion(char* keyword,gtpList* prevSearch){
            			current->timesUsed++;
             			return current;
         		}
-
+			else if(strcmp(current->concept, keyword)){
+				current->timesUsed++;
+            			return current;
+			} 
         		if (current->next != NULL) {
             			current = current->next;
         		} else {
@@ -526,7 +529,10 @@ gtpList* answerTheQuestion(char* keyword,gtpList* prevSearch){
             			current->timesUsed++;
             			return current;
         		}
-
+			else if(strcmp(current->sentence, keyword)){
+				current->timesUsed++;
+            			return current;
+			} 
         		if (current->next != NULL) {
             			current = current->next;
         		} else {
