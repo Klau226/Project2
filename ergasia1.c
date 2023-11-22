@@ -12,6 +12,7 @@ numList *head1 = NULL;
 numList *head2 = NULL;
 numList *headFinal = NULL;
 
+
 void breakInDigits(numList **head);
 void makeList(numList **head , int num);
 numList* createNode(int digit);
@@ -19,32 +20,72 @@ void makeListAtStart(numList **head, int num);
 void printlist(numList **head);
 void sumTheNum();
 void digitsNotTheSame(numList** num1, numList** num2);
-
+void minusTheNum();
+int compareLists();
 
 
 int main(){
-    printf("First number \n");
-    breakInDigits(&head1);
-    while (getchar() != '\n');
-    printf("second number \n");
-    breakInDigits(&head2);
+    int choice;
+    printf("Hi welcome \n");
+    do {
+        printf("----------------------------\n");
+        printf("PRESS: \n");
+        printf("1. ADDITION \n");
+        printf("2. SUBTRACTION \n");
+        printf("3. EXIT \n");
+        printf("----------------------------\n");
+        printf("CHOOSE: ");
+        scanf("%d", &choice);
+        printf("\n");
+        printf("When you want to stop storing digits press something that is not a number \n");
 
-    digitsNotTheSame(&head1, &head2);
-    sumTheNum();
+        if(choice == 3){
+            printf("GOODBYE COME BACK LATER \n");
+            break;
+        }
+        if(choice < 1 || choice > 2){
+            printf("No such input.Please try again \n");
+            continue;
+        }
 
-    printlist(&head1);
-    printf("\n");
-    printlist(&head2);
-    printf("\n");
-    printf("The final List: \n");
-    printlist(&headFinal);
+        printf("--- Store you number digit by digit ---\n");
+        printf("FIRST NUMBER: \n");
+        breakInDigits(&head1);
+        while (getchar() != '\n');
+        printf("SECOND NUMBER: \n");
+        breakInDigits(&head2);
+
+        digitsNotTheSame(&head1, &head2);
+        while (getchar() != '\n');
+        if(choice == 1){
+            sumTheNum();
+        }
+        if(choice == 2){
+            minusTheNum();
+        }
+
+        printf("----------------------------\n");
+        printf("RESULT: \n");
+        printlist(&headFinal);
+        printf("\n");
+        printf("----------------------------\n");
+
+    }while(choice != 3);
+    return 0;
 }
 
 void breakInDigits(numList **head){
     int number;
     while (scanf("%d", &number) == 1) {
-        printf("Give number:\n");
-        makeList(head, number);
+        if(number > 9){
+            printf("!!! The digit should't be > 9 !!! \n");
+            printf("Try again \n");
+            continue;
+        }
+        else{
+            printf("Give digit:\n");
+            makeList(head, number);
+        }
     }
 }
 
@@ -107,7 +148,6 @@ void digitsNotTheSame(numList** num1, numList** num2){
         count1++;
         temp = temp->next;
     }
-
     temp = *num2;
     while (temp != NULL) {
         count2++;
@@ -129,10 +169,10 @@ void digitsNotTheSame(numList** num1, numList** num2){
 
 void sumTheNum(){
     int mod,sum=0;
-    numList *firstList=NULL,*secondList=NULL,*thirdList=NULL;
+    numList *firstList=NULL,*secondList=NULL;
     firstList = head1;
     secondList = head2;
-    thirdList = headFinal;
+    //thirdList = headFinal;
     while(firstList->next != NULL && secondList->next != NULL){
         firstList = firstList->next;
         secondList = secondList->next;
@@ -161,10 +201,68 @@ void sumTheNum(){
     }
 }
 
+int compareLists(){
+    numList *list1 = head1;
+    numList *list2 = head2;
+
+    while (list1 != NULL && list2 != NULL){
+        if(list1->digit > list2->digit){
+            return 1;
+        }
+        else if(list1->digit < list2->digit){
+            return -1;
+        }
+        list1 = list1->next;
+        list2 = list2->next;
+
+        return 0; // Both lists are equal
+    }
+
+}
+
+void minusTheNum(){
+    int sum = 0,bigger;
+    numList *firstList = NULL, *secondList = NULL;
+    firstList = head1;
+    secondList = head2;
+    
+    bigger = compareLists();
+    while(firstList->next != NULL && secondList->next != NULL){
+        firstList = firstList->next;
+        secondList = secondList->next;
+    }
+
+    if(bigger == 1 || bigger == 0){
+        while(firstList != NULL && secondList != NULL){
+            if (firstList->digit < secondList->digit){
+                firstList->digit = firstList->digit + 10;
+                firstList->prev->digit--;
+            }
+            sum = firstList->digit - secondList->digit;
+            printf("MINUS: %d \n",sum);
+            makeListAtStart(&headFinal,sum);
+            firstList = firstList->prev;
+            secondList = secondList->prev;
+        }
+    }
+    else if(bigger == -1){
+        while(firstList != NULL && secondList != NULL){
+            if (secondList->digit < firstList->digit){
+                secondList->digit = secondList->digit + 10;
+                secondList->prev->digit--;
+            }
+            sum = secondList->digit - firstList->digit;
+            printf("MINUS: %d \n",sum);
+            makeListAtStart(&headFinal,sum);
+            firstList = firstList->prev;
+            secondList = secondList->prev;
+        }
+    }
+}
+
 void printlist(numList **head){
     numList *ptr = NULL;
     ptr = *head;
-
     while(ptr != NULL){
         printf("%d",ptr->digit);
         ptr = ptr->next;
